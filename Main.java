@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class Main {
 
-  public static void print2dArray(int[][] a) {
+  public static void print2dArray(double[][] a) {
     for (int r=0; r < a.length; r++) {
       for (int c=0; c< a[r].length; c++) {
         System.out.print(a[r][c]);
@@ -58,12 +58,27 @@ public class Main {
     int rowL = orig[0].length;
     int nRow = orig.length;
     for (int r = 0; r < rowL; r++) {
-      for (int c = 0; c<nRow; c++) {
+      for (int c = 0; c < nRow; c++) {
         System.out.print(orig[c][r]);
         System.out.print(" ");
       }
       System.out.println();
     }
+  }
+
+  public static double[][] withWeightedAverage(double[][] nums, double[] weights) {
+    int nRows = nums.length;
+    int nCols = nums[0].length;
+    double[][] result = new double[nums.length+1][nums[0].length+1];
+    double rowTotal = 0;
+    for (int r = 0; r < nums.length; r++) {
+      rowTotal = 0;
+      for (int c = 0; c < nums[r].length; c++) {
+        rowTotal = rowTotal + nums[r][c];
+      }
+      nums[r][nCols-1] =  rowTotal / nCols;
+    }
+    return result;
   }
   
   public static void main(String[] args) {
@@ -93,8 +108,8 @@ public class Main {
       {77, 70.5, 66.5},
       {89, 89.5, 81}
     };
+    double[] weights = { 0.25, 0.25, 0.50 };
     
-    // printTranspose(ss);
-    print2dArray(copyRagged(ragged));
+    print2dArray(withWeightedAverage(ss, weights));
     }
   }
