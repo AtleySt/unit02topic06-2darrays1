@@ -70,14 +70,37 @@ public class Main {
     int nRows = nums.length;
     int nCols = nums[0].length;
     double[][] result = new double[nums.length+1][nums[0].length+1];
-    double rowTotal = 0;
     for (int r = 0; r < nums.length; r++) {
-      rowTotal = 0;
-      for (int c = 0; c < nums[r].length; c++) {
-        rowTotal = rowTotal + nums[r][c];
+      for (int c = 0; c < nums[0].length; c++) {
+        result[r][c] = nums[r][c];
       }
-      nums[r][nCols-1] =  rowTotal / nCols;
     }
+    double[][] weightedNums = new double[nums.length][nums[0].length];
+    for (int r = 0; r < nums[0].length; r++) {
+      for (int c = 0; c < nums.length; c++) {
+        weightedNums[c][r] = nums[c][r] * weights[r];
+      }
+    }
+    double rowTotal = 0;
+    for (int r = 0; r < weightedNums.length; r++) {
+      rowTotal = 0;
+      for (int c = 0; c < weightedNums[r].length; c++) {
+        rowTotal = rowTotal + weightedNums[r][c];
+      }
+      result[r][nCols] =  rowTotal;
+    }
+    for (int r = 0; r < result[0].length; r++) {
+      rowTotal = 0;
+      for (int c = 0; c < result.length; c++) {
+        rowTotal = rowTotal + result[c][r];
+      }
+      result[nRows][r] = rowTotal / nums.length;
+    }
+    double lastColTotal = 0;
+    for (int r = 0; r < result.length; r++) {
+      lastColTotal = lastColTotal + result[r][result[r].length-1];
+    }
+    result[result.length-1][result[0].length-1] = lastColTotal / nums.length;
     return result;
   }
   
