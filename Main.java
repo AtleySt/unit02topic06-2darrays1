@@ -2,7 +2,8 @@ import java.util.Arrays;
 
 public class Main {
 
-  public static void print2dArray(double[][] a) {
+  // NOTE: it's great to write your own helper methods... just make them private
+  private static void print2dArray(double[][] a) {
     for (int r=0; r < a.length; r++) {
       for (int c=0; c< a[r].length; c++) {
         System.out.print(a[r][c]);
@@ -12,6 +13,7 @@ public class Main {
     }
   }
 
+  // good
   public static int[][] copySquare(int[][] orig) {
     int[][] result =  new int[orig.length][orig[0].length];
     for (int r = 0; r < orig.length; r++) {
@@ -22,6 +24,7 @@ public class Main {
     return result;
   }
 
+  // good
   public static int[][] copyRectangle(int[][] orig) {
     int[][] result =  new int[orig.length][orig[0].length];
     for (int r = 0; r < orig.length; r++) {
@@ -32,15 +35,13 @@ public class Main {
     return result;
   } 
 
+  // good
   public static int[][] copyRagged(int[][] orig) {
     int[] columnLengths = new int[orig.length];
     int columnCount = 0;
     for (int r = 0; r < orig.length; r++) {
-      columnCount = 0;
-      for (int c = 1; c <= orig[r].length; c++) {
-        columnCount++;
-      }
-      columnLengths[r] = columnCount;
+      // quicker way
+      columnLengths[r] = orig[r].length;
     }
     int[][] result = new int[orig.length][];
     for (int i = 0; i < orig.length; i++) {
@@ -54,22 +55,26 @@ public class Main {
     return result;
   }
   
+  // OK
   public static void printTranspose(double[][] orig) {
     int rowL = orig[0].length;
     int nRow = orig.length;
-    for (int r = 0; r < rowL; r++) {
-      for (int c = 0; c < nRow; c++) {
-        System.out.print(orig[c][r]);
+    // these variable names were very misleading
+    for (int col = 0; col < rowL; col++) {
+      for (int row = 0; row < nRow; row++) {
+        System.out.print(orig[row][col]);
         System.out.print(" ");
       }
       System.out.println();
     }
   }
 
+  // TODO: I think it works across the board, except for the very bottom row, I'm seeing 89.6 73.6 82.0 89.97999999999999. That last number doesn't make sense to me.
   public static double[][] withWeightedAverage(double[][] nums, double[] weights) {
     int nRows = nums.length;
     int nCols = nums[0].length;
-    double[][] result = new double[nums.length+1][nums[0].length+1];
+    // use your defined variables to make it more readable
+    double[][] result = new double[nRows+1][nCols+1];
     for (int r = 0; r < nums.length; r++) {
       for (int c = 0; c < nums[0].length; c++) {
         result[r][c] = nums[r][c];
@@ -131,6 +136,7 @@ public class Main {
       {77, 70.5, 66.5},
       {89, 89.5, 81}
     };
+
     double[] weights = { 0.25, 0.25, 0.50 };
     
     print2dArray(withWeightedAverage(ss, weights));
